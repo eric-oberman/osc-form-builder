@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Plus, Search, Eye, Edit, Copy, Trash2, Filter, Folder, Clock } from 'lucide-react';
+import { Plus, Search, Eye, Edit, Copy, Trash2, Filter, Folder } from 'lucide-react';
 import { useFormBuilderStore } from '../stores/useFormBuilderStore';
 import TemplateGallery from '../components/Dashboard/TemplateGallery';
 
 const Forms = () => {
-  const { setCurrentPage, setCurrentForm } = useFormBuilderStore();
+  const { setCurrentPage } = useFormBuilderStore();
   const [activeTab, setActiveTab] = useState<'my-forms' | 'templates'>('my-forms');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -70,7 +70,7 @@ const Forms = () => {
     setCurrentPage('builder');
   };
 
-  const handleEditForm = (formId: string) => {
+  const handleEditForm = () => {
     // In a real app, load the form by ID
     setCurrentPage('builder');
   };
@@ -172,7 +172,7 @@ const Forms = () => {
                       <Eye className="h-4 w-4" />
                     </button>
                     <button
-                      onClick={() => handleEditForm(form.id)}
+                      onClick={handleEditForm}
                       className="p-2 text-slate-400 hover:text-osc-blue hover:bg-osc-blue hover:bg-opacity-10 rounded-lg transition-all duration-200"
                     >
                       <Edit className="h-4 w-4" />

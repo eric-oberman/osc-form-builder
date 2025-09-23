@@ -1,4 +1,4 @@
-import { Building2, FileText, Settings, LogOut, User, Home, Database, BarChart3 } from 'lucide-react';
+import { Building2, FileText, Settings, LogOut, User, Home, Database } from 'lucide-react';
 import { useFormBuilderStore } from '../../stores/useFormBuilderStore';
 
 type PageType = 'home' | 'forms' | 'responses' | 'settings';

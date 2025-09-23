@@ -17,7 +17,7 @@ interface FormBuilderState {
   analytics: AnalyticsData;
 
   // App state
-  currentPage: 'login' | 'home' | 'forms' | 'responses' | 'settings' | 'builder' | 'preview' | 'fill-form';
+  currentPage: 'login' | 'home' | 'forms' | 'responses' | 'settings' | 'builder' | 'preview' | 'fill-form' | 'dashboard' | 'admin';
   isAuthenticated: boolean;
 
   // Actions
