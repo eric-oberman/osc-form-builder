@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Styles */
+@layer base {
+  html {
+    @apply font-gov antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  body {
+    @apply min-h-screen bg-gray-50 text-osc-navy-900 leading-relaxed;
+    @apply dark:bg-osc-navy-950 dark:text-osc-navy-50;
+  }
+
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-osc-navy-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-osc-navy-300 dark:bg-osc-navy-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-osc-navy-400 dark:bg-osc-navy-600;
+  }
+
+  /* Focus Styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-gov-secondary ring-offset-2 ring-offset-white dark:ring-offset-osc-navy-900;
+  }
+
+  /* Selection Styles */
+  ::selection {
+    @apply bg-gov-secondary/20 text-gov-primary;
+  }
+}
+
+/* Component Layer */
+@layer components {
+  /* Government Toast Styling */
+  .gov-toast {
+    @apply font-gov text-sm font-medium;
+  }
+
+  /* Professional Input Styling */
+  .input-gov {
+    @apply form-gov-input;
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .input-gov:hover {
+    @apply border-osc-navy-300;
+  }
+
+  .input-gov:focus {
+    @apply border-gov-secondary ring-1 ring-gov-secondary;
+  }
+
+  /* Professional Select Styling */
+  .select-gov {
+    @apply form-gov-select;
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Professional Textarea Styling */
+  .textarea-gov {
+    @apply input-gov resize-none;
+  }
+
+  /* Animation Classes */
+  .animate-fade-in {
+    @apply animate-fade-in;
+  }
+
+  .animate-slide-up {
+    @apply animate-slide-up;
+  }
+
+  .animate-scale-in {
+    @apply animate-scale-in;
+  }
+
+  /* Layout Utilities */
+  .container-gov {
+    @apply max-w-container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-spacing {
+    @apply py-16 lg:py-24;
+  }
+
+  /* Professional Card Animations */
+  .card-hover {
+    @apply transition-all duration-200 ease-in-out;
+    @apply hover:shadow-gov-md hover:scale-[1.02];
+  }
+
+  /* Government Button Variants */
+  .btn-gov-primary {
+    @apply bg-gov-primary text-white font-semibold py-3 px-6 rounded-button shadow-gov;
+    @apply hover:bg-osc-navy-800 focus:outline-none focus:ring-2 focus:ring-osc-navy-500 focus:ring-offset-2;
+    @apply transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98];
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  }
+
+  .btn-gov-secondary {
+    @apply bg-white text-gov-primary font-semibold py-3 px-6 rounded-button border border-osc-navy-200 shadow-gov-sm;
+    @apply hover:bg-osc-navy-50 focus:outline-none focus:ring-2 focus:ring-osc-navy-500 focus:ring-offset-2;
+    @apply transition-all duration-200 active:scale-[0.98];
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-gov-success {
+    @apply bg-gov-success text-white font-semibold py-3 px-6 rounded-button shadow-gov;
+    @apply hover:bg-osc-green-700 focus:outline-none focus:ring-2 focus:ring-osc-green-500 focus:ring-offset-2;
+    @apply transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98];
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  }
+
+  .btn-gov-warning {
+    @apply bg-gov-warning text-white font-semibold py-3 px-6 rounded-button shadow-gov;
+    @apply hover:bg-osc-gold-600 focus:outline-none focus:ring-2 focus:ring-osc-gold-500 focus:ring-offset-2;
+    @apply transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98];
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  }
+
+  .btn-gov-error {
+    @apply bg-gov-error text-white font-semibold py-3 px-6 rounded-button shadow-gov;
+    @apply hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+    @apply transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98];
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  }
+
+  /* Loading States */
+  .loading-spinner {
+    @apply animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full;
+  }
+
+  .loading-dots {
+    @apply inline-flex space-x-1;
+  }
+
+  .loading-dots > div {
+    @apply w-2 h-2 bg-current rounded-full animate-bounce;
+  }
+
+  .loading-dots > div:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  .loading-dots > div:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+
+  /* Professional Form Grid */
+  .form-grid {
+    @apply grid gap-6;
+    @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .form-grid-full {
+    @apply col-span-full;
+  }
+
+  .form-grid-half {
+    @apply col-span-1 md:col-span-1;
+  }
+
+  /* Professional Data Tables */
+  .table-gov {
+    @apply w-full bg-white shadow-gov rounded-card border border-osc-navy-200 overflow-hidden;
+  }
+
+  .table-gov th {
+    @apply bg-osc-navy-50 px-6 py-3 text-left text-xs font-semibold text-osc-navy-700 uppercase tracking-wider;
+  }
+
+  .table-gov td {
+    @apply px-6 py-4 text-sm text-osc-navy-900 border-t border-osc-navy-100;
+  }
+
+  .table-gov tbody tr:hover {
+    @apply bg-osc-navy-25 transition-colors duration-150;
+  }
+}
+
+/* Utility Layer */
+@layer utilities {
+  /* Text Utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Animation Utilities */
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+
+  /* Professional Gradients */
+  .gradient-gov {
+    @apply bg-gradient-to-r from-gov-primary to-gov-secondary;
+  }
+
+  .gradient-success {
+    @apply bg-gradient-to-r from-osc-green-600 to-osc-green-700;
+  }
+
+  .gradient-warning {
+    @apply bg-gradient-to-r from-osc-gold-500 to-osc-gold-600;
+  }
+
+  /* Professional Border Utilities */
+  .border-dotted-gov {
+    border-style: dotted;
+    border-color: theme('colors.osc-navy.200');
+  }
+
+  /* Print Utilities */
+  @media print {
+    .print-hidden {
+      @apply hidden;
+    }
+
+    .print-visible {
+      @apply block;
+    }
+
+    .print-break-before {
+      page-break-before: always;
+    }
+
+    .print-break-after {
+      page-break-after: always;
+    }
+
+    .print-no-break {
+      page-break-inside: avoid;
+    }
+  }
+}
