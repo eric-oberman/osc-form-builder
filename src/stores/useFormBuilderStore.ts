@@ -20,6 +20,10 @@ interface FormBuilderState {
   currentPage: 'login' | 'home' | 'forms' | 'responses' | 'settings' | 'builder' | 'preview' | 'fill-form' | 'dashboard' | 'admin';
   isAuthenticated: boolean;
 
+  // Form Builder state
+  selectedFieldId: string | null;
+  isInlineEditing: boolean;
+
   // Actions
   setCurrentForm: (form: Form | null) => void;
   updateField: (fieldId: string, updates: Partial<FormField>) => void;
@@ -29,6 +33,14 @@ interface FormBuilderState {
   login: (user: User) => void;
   logout: () => void;
   updateAnalytics: (analytics: AnalyticsData) => void;
+
+  // Form Builder actions
+  selectField: (fieldId: string | null) => void;
+  setInlineEditing: (editing: boolean) => void;
+  duplicateField: (fieldId: string) => void;
+  reorderFields: (activeId: string, overId: string) => void;
+  updateFormTitle: (title: string) => void;
+  updateFormDescription: (description: string) => void;
 }
 
 export const useFormBuilderStore = create<FormBuilderState>()(
@@ -52,7 +64,11 @@ export const useFormBuilderStore = create<FormBuilderState>()(
       currentPage: 'login',
       isAuthenticated: false,
 
-      setCurrentForm: (form) => set({ currentForm: form }),
+      // Form Builder state
+      selectedFieldId: null,
+      isInlineEditing: false,
+
+      setCurrentForm: (form) => set({ currentForm: form, selectedFieldId: null }),
 
       updateField: (fieldId, updates) => {
         const { currentForm } = get();
@@ -103,9 +119,92 @@ export const useFormBuilderStore = create<FormBuilderState>()(
 
       login: (user) => set({ currentUser: user, isAuthenticated: true, currentPage: 'home' }),
 
-      logout: () => set({ currentUser: null, isAuthenticated: false, currentPage: 'login', currentForm: null }),
+      logout: () => set({ currentUser: null, isAuthenticated: false, currentPage: 'login', currentForm: null, selectedFieldId: null }),
 
       updateAnalytics: (analytics) => set({ analytics }),
+
+      // Form Builder actions
+      selectField: (fieldId) => set({ selectedFieldId: fieldId, isInlineEditing: false }),
+
+      setInlineEditing: (editing) => set({ isInlineEditing: editing }),
+
+      duplicateField: (fieldId) => {
+        const { currentForm } = get();
+        if (!currentForm) return;
+
+        const fieldToDuplicate = currentForm.fields.find(f => f.id === fieldId);
+        if (!fieldToDuplicate) return;
+
+        const duplicatedField = {
+          ...fieldToDuplicate,
+          id: `${fieldToDuplicate.id}-copy-${Date.now()}`,
+          label: `${fieldToDuplicate.label} (Copy)`,
+          question: fieldToDuplicate.question ? `${fieldToDuplicate.question} (Copy)` : undefined,
+        };
+
+        const fieldIndex = currentForm.fields.findIndex(f => f.id === fieldId);
+        const updatedFields = [
+          ...currentForm.fields.slice(0, fieldIndex + 1),
+          duplicatedField,
+          ...currentForm.fields.slice(fieldIndex + 1),
+        ];
+
+        set({
+          currentForm: {
+            ...currentForm,
+            fields: updatedFields,
+            updatedAt: new Date(),
+          },
+        });
+      },
+
+      reorderFields: (activeId, overId) => {
+        const { currentForm } = get();
+        if (!currentForm) return;
+
+        const activeIndex = currentForm.fields.findIndex(f => f.id === activeId);
+        const overIndex = currentForm.fields.findIndex(f => f.id === overId);
+
+        if (activeIndex === -1 || overIndex === -1) return;
+
+        const reorderedFields = [...currentForm.fields];
+        const [movedField] = reorderedFields.splice(activeIndex, 1);
+        reorderedFields.splice(overIndex, 0, movedField);
+
+        set({
+          currentForm: {
+            ...currentForm,
+            fields: reorderedFields,
+            updatedAt: new Date(),
+          },
+        });
+      },
+
+      updateFormTitle: (title) => {
+        const { currentForm } = get();
+        if (!currentForm) return;
+
+        set({
+          currentForm: {
+            ...currentForm,
+            title,
+            updatedAt: new Date(),
+          },
+        });
+      },
+
+      updateFormDescription: (description) => {
+        const { currentForm } = get();
+        if (!currentForm) return;
+
+        set({
+          currentForm: {
+            ...currentForm,
+            description,
+            updatedAt: new Date(),
+          },
+        });
+      },
     }),
     {
       name: 'osc-form-builder-storage',

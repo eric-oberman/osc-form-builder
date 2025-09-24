@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import type { FormField } from '../../types';
+import { useFormBuilderStore } from '../../stores/useFormBuilderStore';
+import InlineEditor from './InlineEditor';
 
 interface FieldRendererProps {
   field: FormField;
@@ -6,9 +9,47 @@ interface FieldRendererProps {
 }
 
 const FieldRenderer = ({ field, isPreview = false }: FieldRendererProps) => {
+  const { currentForm, updateField, setInlineEditing, selectedFieldId } = useFormBuilderStore();
+  const [editingField, setEditingField] = useState<'question' | 'description' | null>(null);
+  const isCurrentFieldSelected = selectedFieldId === field.id;
+
   const getQuestionNumber = () => {
-    // In a real app, this would be calculated based on field order
-    return Math.floor(Math.random() * 20) + 1;
+    if (!currentForm) return 1;
+
+    // Find the index of this field in the form's fields array
+    const fieldIndex = currentForm.fields.findIndex(f => f.id === field.id);
+
+    // Only count non-section fields for question numbering
+    let questionNumber = 0;
+    for (let i = 0; i <= fieldIndex; i++) {
+      if (currentForm.fields[i] && currentForm.fields[i].type !== 'section') {
+        questionNumber++;
+      }
+    }
+
+    return questionNumber;
+  };
+
+  const handleStartEditing = (fieldType: 'question' | 'description', e: React.MouseEvent) => {
+    if (!isPreview && isCurrentFieldSelected) {
+      e.stopPropagation();
+      setEditingField(fieldType);
+      setInlineEditing(true);
+    }
+  };
+
+  const handleSaveEdit = (fieldType: 'question' | 'description', value: string) => {
+    updateField(field.id, {
+      [fieldType]: value,
+      ...(fieldType === 'question' && { label: value })
+    });
+    setEditingField(null);
+    setInlineEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingField(null);
+    setInlineEditing(false);
   };
 
   const renderField = () => {
@@ -206,11 +247,27 @@ const FieldRenderer = ({ field, isPreview = false }: FieldRendererProps) => {
       {/* Question Header */}
       <div className="mb-6">
         <div className="flex items-start justify-between mb-3">
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 leading-tight">
-              {field.question || field.label}
-              {field.required && <span className="text-red-500 ml-2">*</span>}
-            </h3>
+          <div className="flex-1 relative">
+            {editingField === 'question' ? (
+              <InlineEditor
+                value={field.question || field.label || ''}
+                onSave={(value) => handleSaveEdit('question', value)}
+                onCancel={handleCancelEdit}
+                placeholder="Enter your question..."
+                className="text-lg font-semibold text-gray-900"
+              />
+            ) : (
+              <h3
+                className={`text-lg font-semibold text-gray-900 leading-tight cursor-pointer rounded px-2 py-1 -mx-2 transition-colors ${
+                  isCurrentFieldSelected && !isPreview ? 'hover:bg-blue-50' : ''
+                }`}
+                onDoubleClick={(e) => handleStartEditing('question', e)}
+                title={isCurrentFieldSelected && !isPreview ? 'Double-click to edit' : ''}
+              >
+                {field.question || field.label || 'Click to add question...'}
+                {field.required && <span className="text-red-500 ml-2">*</span>}
+              </h3>
+            )}
           </div>
           <div className="ml-4">
             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -219,8 +276,27 @@ const FieldRenderer = ({ field, isPreview = false }: FieldRendererProps) => {
           </div>
         </div>
 
-        {field.description && (
-          <p className="text-sm text-gray-600 leading-relaxed">{field.description}</p>
+        {editingField === 'description' ? (
+          <InlineEditor
+            value={field.description || ''}
+            onSave={(value) => handleSaveEdit('description', value)}
+            onCancel={handleCancelEdit}
+            placeholder="Add description or instructions..."
+            multiline
+            className="text-sm text-gray-600"
+          />
+        ) : (
+          <p
+            className={`text-sm text-gray-600 leading-relaxed cursor-pointer rounded px-2 py-1 -mx-2 transition-colors ${
+              field.description || isCurrentFieldSelected ? 'block' : 'hidden'
+            } ${
+              isCurrentFieldSelected && !isPreview ? 'hover:bg-blue-50' : ''
+            }`}
+            onDoubleClick={(e) => handleStartEditing('description', e)}
+            title={isCurrentFieldSelected && !isPreview ? 'Double-click to edit' : ''}
+          >
+            {field.description || (isCurrentFieldSelected && !isPreview ? 'Click to add description...' : '')}
+          </p>
         )}
       </div>
 

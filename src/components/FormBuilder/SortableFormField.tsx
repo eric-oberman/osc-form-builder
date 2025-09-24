@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Settings, Trash2 } from 'lucide-react';
+import { GripVertical, Settings, Trash2, Copy } from 'lucide-react';
 import { useState } from 'react';
 import { useFormBuilderStore } from '../../stores/useFormBuilderStore';
 import type { FormField } from '../../types';
@@ -12,7 +12,8 @@ interface SortableFormFieldProps {
 
 const SortableFormField = ({ field }: SortableFormFieldProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { removeField } = useFormBuilderStore();
+  const { removeField, selectField, selectedFieldId, duplicateField } = useFormBuilderStore();
+  const isSelected = selectedFieldId === field.id;
 
   const {
     attributes,
@@ -32,13 +33,22 @@ const SortableFormField = ({ field }: SortableFormFieldProps) => {
     removeField(field.id);
   };
 
+  const handleSelect = () => {
+    selectField(field.id);
+  };
+
+  const handleDuplicate = () => {
+    duplicateField(field.id);
+  };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       className={`
-        relative group mb-6
+        relative group mb-6 cursor-pointer
         ${isDragging ? 'opacity-50 z-50' : ''}
+        ${isSelected ? 'ring-2 ring-osc-blue ring-opacity-50' : ''}
       `}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -57,13 +67,25 @@ const SortableFormField = ({ field }: SortableFormFieldProps) => {
         </div>
       )}
 
-      {isHovered && (
+      {(isHovered || isSelected) && (
         <div className="absolute -right-12 top-6 flex flex-col space-y-2 z-10">
           <button
-            className="p-2 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50 rounded-lg shadow-sm transition-colors"
+            onClick={handleSelect}
+            className={`p-2 bg-white border rounded-lg shadow-sm transition-colors ${
+              isSelected
+                ? 'border-osc-blue bg-osc-blue bg-opacity-10 text-osc-blue'
+                : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50 text-gray-500 hover:text-blue-600'
+            }`}
             title="Edit field settings"
           >
-            <Settings className="h-4 w-4 text-gray-500 hover:text-blue-600" />
+            <Settings className="h-4 w-4" />
+          </button>
+          <button
+            onClick={handleDuplicate}
+            className="p-2 bg-white border border-gray-200 hover:border-green-300 hover:bg-green-50 rounded-lg shadow-sm transition-colors"
+            title="Duplicate field"
+          >
+            <Copy className="h-4 w-4 text-gray-500 hover:text-green-600" />
           </button>
           <button
             onClick={handleDelete}
@@ -76,7 +98,10 @@ const SortableFormField = ({ field }: SortableFormFieldProps) => {
       )}
 
       {/* Field Renderer with Builder Context */}
-      <div className={`transition-all duration-200 ${isHovered ? 'ring-2 ring-blue-200 ring-opacity-50' : ''}`}>
+      <div
+        className={`transition-all duration-200 ${isHovered || isSelected ? 'ring-2 ring-blue-200 ring-opacity-50' : ''}`}
+        onClick={handleSelect}
+      >
         <FieldRenderer field={field} />
       </div>
     </div>

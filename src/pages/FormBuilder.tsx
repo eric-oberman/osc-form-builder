@@ -5,9 +5,10 @@ import { createEmptyForm } from '../data/demoForms';
 import DragDropProvider from '../components/FormBuilder/DragDropProvider';
 import ComponentPalette from '../components/FormBuilder/ComponentPalette';
 import FormCanvas from '../components/FormBuilder/FormCanvas';
+import FieldPropertiesPanel from '../components/FormBuilder/FieldPropertiesPanel';
 
 const FormBuilder = () => {
-  const { currentForm, setCurrentForm, setCurrentPage } = useFormBuilderStore();
+  const { currentForm, setCurrentForm, setCurrentPage, updateFormTitle, updateFormDescription } = useFormBuilderStore();
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
 
   useEffect(() => {
@@ -136,15 +137,7 @@ const FormBuilder = () => {
                     <input
                       type="text"
                       value={currentForm?.title || ''}
-                      onChange={(e) => {
-                        if (currentForm) {
-                          setCurrentForm({
-                            ...currentForm,
-                            title: e.target.value,
-                            updatedAt: new Date(),
-                          });
-                        }
-                      }}
+                      onChange={(e) => updateFormTitle(e.target.value)}
                       className="form-input w-full"
                       placeholder="Enter form title..."
                     />
@@ -156,15 +149,7 @@ const FormBuilder = () => {
                     </label>
                     <textarea
                       value={currentForm?.description || ''}
-                      onChange={(e) => {
-                        if (currentForm) {
-                          setCurrentForm({
-                            ...currentForm,
-                            description: e.target.value,
-                            updatedAt: new Date(),
-                          });
-                        }
-                      }}
+                      onChange={(e) => updateFormDescription(e.target.value)}
                       rows={3}
                       className="form-input w-full resize-none"
                       placeholder="Enter form description..."
@@ -243,12 +228,7 @@ const FormBuilder = () => {
                 </div>
 
                 {/* Field Properties */}
-                <div className="p-5 bg-slate-50 rounded-xl border border-slate-200">
-                  <h4 className="font-semibold text-osc-navy mb-2 text-base">Field Properties</h4>
-                  <p className="text-sm text-slate-600">
-                    Select a field on the canvas to edit its properties here.
-                  </p>
-                </div>
+                <FieldPropertiesPanel />
               </div>
             </div>
           </div>
