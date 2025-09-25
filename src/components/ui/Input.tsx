@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils/cn'
 
 const inputVariants = cva(
-  'flex w-full rounded-lg border bg-white px-3 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-osc-navy-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-osc-navy-800 dark:text-osc-navy-100',
+  'flex w-full rounded-lg border bg-white px-3 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-osc-navy-500 dark:placeholder:text-osc-navy-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-osc-navy-800 dark:text-osc-navy-100',
   {
     variants: {
       variant: {
@@ -64,7 +64,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative">
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-osc-navy-400">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-osc-navy-500 dark:text-osc-navy-400">
               {leftIcon}
             </div>
           )}
@@ -81,7 +81,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
 
           {rightIcon && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-osc-navy-400">
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-osc-navy-500 dark:text-osc-navy-400">
               {rightIcon}
             </div>
           )}
@@ -92,7 +92,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {errorMessage}
           </p>
         ) : helperText ? (
-          <p className="text-sm text-osc-navy-500 dark:text-osc-navy-400">
+          <p className="text-sm text-osc-navy-600 dark:text-osc-navy-400">
             {helperText}
           </p>
         ) : null}

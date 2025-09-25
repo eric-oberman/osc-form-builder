@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
-  BellIcon,
   MoonIcon,
   SunIcon,
   UserCircleIcon,
@@ -79,22 +78,6 @@ export function DashboardHeader({ onMenuClick, sidebarCollapsed = false }: Dashb
             ) : (
               <SunIcon className="h-5 w-5" aria-hidden="true" />
             )}
-          </button>
-
-          {/* Notifications */}
-          <button
-            type="button"
-            className="relative p-2 text-osc-navy-600 hover:text-osc-navy-900 hover:bg-osc-navy-100 dark:text-osc-navy-300 dark:hover:text-osc-navy-100 dark:hover:bg-osc-navy-800 rounded-md transition-colors duration-200"
-          >
-            <span className="sr-only">View notifications</span>
-            <BellIcon className="h-5 w-5" aria-hidden="true" />
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-0.5 -right-0.5 h-4 w-4 bg-gov-error text-white text-xs rounded-full flex items-center justify-center"
-            >
-              3
-            </motion.span>
           </button>
 
           {/* User menu */}

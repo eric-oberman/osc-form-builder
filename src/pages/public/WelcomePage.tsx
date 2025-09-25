@@ -45,7 +45,7 @@ export function WelcomePage() {
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">
               Electronic Form Builder
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 text-pretty">
+            <p className="text-xl md:text-2xl text-white mb-8 text-pretty">
               Government-grade form creation platform designed for the
               New York State Office of State Comptroller
             </p>
@@ -58,7 +58,7 @@ export function WelcomePage() {
               </Link>
               <Link
                 to="/tutorial"
-                className="btn-gov-secondary text-lg px-8 py-4 bg-white/10 border-white/30 hover:bg-white/20"
+                className="btn-gov-secondary text-lg px-8 py-4 bg-white/20 border-white/50 hover:bg-white/30 text-white"
               >
                 View Tutorial
               </Link>
@@ -74,7 +74,7 @@ export function WelcomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-osc-navy-900 dark:text-osc-navy-100 mb-4">
               Professional Form Management
             </h2>
-            <p className="text-xl text-osc-navy-600 dark:text-osc-navy-400">
+            <p className="text-xl text-osc-navy-700 dark:text-osc-navy-300">
               Everything you need to create, manage, and optimize electronic forms
               for government operations.
             </p>
@@ -99,7 +99,7 @@ export function WelcomePage() {
                     <h3 className="text-xl font-semibold text-osc-navy-900 dark:text-osc-navy-100 mb-2">
                       {feature.title}
                     </h3>
-                    <p className="text-osc-navy-600 dark:text-osc-navy-400">
+                    <p className="text-osc-navy-700 dark:text-osc-navy-300">
                       {feature.description}
                     </p>
                   </div>
@@ -122,7 +122,7 @@ export function WelcomePage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Transform Your Forms?
             </h2>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-xl text-white mb-8">
               Join the OSC Electronic Form Builder and experience the future of
               government form management.
             </p>
