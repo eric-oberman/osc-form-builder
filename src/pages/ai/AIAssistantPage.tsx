@@ -84,7 +84,7 @@ export function AIAssistantPage() {
               <h1 className="text-xl font-bold text-osc-navy-900 dark:text-osc-navy-100">
                 AI Form Assistant
               </h1>
-              <p className="text-sm text-osc-navy-800 dark:text-osc-navy-200">
+              <p className="text-sm text-osc-navy-900 dark:text-white">
                 Smart suggestions and optimization powered by AI
               </p>
             </div>
@@ -95,7 +95,7 @@ export function AIAssistantPage() {
               <div className="text-sm font-medium text-osc-navy-900 dark:text-osc-navy-100">
                 {aiMetrics.suggestionsAccepted}/{aiMetrics.suggestionsGenerated} suggestions accepted
               </div>
-              <div className="text-xs text-osc-navy-800 dark:text-osc-navy-200">
+              <div className="text-xs text-osc-navy-900 dark:text-white">
                 {aiMetrics.conversationsStarted} conversations started
               </div>
             </div>
@@ -132,7 +132,7 @@ export function AIAssistantPage() {
                     message.type === 'user'
                       ? 'bg-gov-secondary text-white'
                       : message.type === 'system'
-                      ? 'bg-osc-navy-100 dark:bg-osc-navy-800 text-osc-navy-800 dark:text-osc-navy-200 border border-osc-navy-200 dark:border-osc-navy-700'
+                      ? 'bg-osc-navy-100 dark:bg-osc-navy-800 text-osc-navy-900 dark:text-white border border-osc-navy-200 dark:border-osc-navy-700'
                       : 'bg-white dark:bg-osc-navy-900 text-osc-navy-900 dark:text-osc-navy-100 border border-osc-navy-200 dark:border-osc-navy-800 shadow-sm'
                   )}
                 >
@@ -178,7 +178,7 @@ export function AIAssistantPage() {
                 className="flex justify-start"
               >
                 <div className="bg-white dark:bg-osc-navy-900 border border-osc-navy-200 dark:border-osc-navy-800 rounded-lg px-4 py-3 shadow-sm">
-                  <div className="flex items-center space-x-2 text-osc-navy-800 dark:text-osc-navy-200">
+                  <div className="flex items-center space-x-2 text-osc-navy-900 dark:text-white">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-current rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -232,7 +232,7 @@ export function AIAssistantPage() {
                   <XMarkIcon className="h-4 w-4" />
                 </button>
               </div>
-              <p className="text-xs text-osc-navy-800 dark:text-osc-navy-200 mt-1">
+              <p className="text-xs text-osc-navy-900 dark:text-white mt-1">
                 AI-powered recommendations for your forms
               </p>
             </div>
@@ -304,7 +304,7 @@ function SuggestionCard({
           {getContextIcon(suggestion.context)}
           <span className={cn(
             'text-xs font-medium',
-            compact ? 'text-osc-navy-800 dark:text-osc-navy-200' : 'text-osc-navy-800 dark:text-osc-navy-200'
+            compact ? 'text-osc-navy-900 dark:text-white' : 'text-osc-navy-900 dark:text-white'
           )}>
             {suggestion.context}
           </span>
@@ -333,7 +333,7 @@ function SuggestionCard({
         </p>
         <p className={cn(
           compact ? 'text-xs' : 'text-xs',
-          'text-osc-navy-800 dark:text-osc-navy-200'
+          'text-osc-navy-900 dark:text-white'
         )}>
           {suggestion.reasoning}
         </p>
@@ -344,13 +344,13 @@ function SuggestionCard({
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-1">
             <CheckIcon className="h-3 w-3 text-green-600" />
-            <span className="text-xs text-osc-navy-800 dark:text-osc-navy-200">
+            <span className="text-xs text-osc-navy-900 dark:text-white">
               {suggestion.acceptedCount}
             </span>
           </div>
           <div className="flex items-center space-x-1">
             <XMarkIcon className="h-3 w-3 text-red-600" />
-            <span className="text-xs text-osc-navy-800 dark:text-osc-navy-200">
+            <span className="text-xs text-osc-navy-900 dark:text-white">
               {suggestion.rejectedCount}
             </span>
           </div>
@@ -367,7 +367,7 @@ function SuggestionCard({
         </button>
         <button
           onClick={() => onReject(suggestion.id)}
-          className="flex-1 px-3 py-1.5 border border-osc-navy-200 dark:border-osc-navy-600 text-osc-navy-800 dark:text-osc-navy-200 text-xs font-medium rounded hover:bg-osc-navy-50 dark:hover:bg-osc-navy-800 transition-colors duration-200"
+          className="flex-1 px-3 py-1.5 border border-osc-navy-200 dark:border-osc-navy-600 text-osc-navy-900 dark:text-white text-xs font-medium rounded hover:bg-osc-navy-50 dark:hover:bg-osc-navy-800 transition-colors duration-200"
         >
           Not now
         </button>

@@ -21,6 +21,7 @@ import { PreferencesPage } from '@/pages/user/PreferencesPage'
 import { LoginPage } from '@/pages/auth/LoginPage'
 import { WelcomePage } from '@/pages/public/WelcomePage'
 import { TutorialPage } from '@/pages/public/TutorialPage'
+import { PublicFormPage } from '@/pages/public/PublicFormPage'
 import { AIAssistantPage } from '@/pages/ai/AIAssistantPage'
 
 // Route Guards
@@ -77,6 +78,10 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/welcome" element={<WelcomePage />} />
         </Route>
+
+        {/* Public Form Routes - No layout wrapper */}
+        <Route path="/f/:id/:token" element={<PublicFormPage />} />
+        <Route path="/f/:id" element={<PublicFormPage />} />
 
         {/* Authentication Routes */}
         <Route element={<AuthLayout />}>

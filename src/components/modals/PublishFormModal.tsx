@@ -47,15 +47,17 @@ export function PublishFormModal({ form, isOpen, onClose, onPublish }: PublishFo
     try {
       await onPublish(publishOptions)
 
-      // Generate mock URLs for demo
+      // Generate working local URLs for demo
       if (publishOptions.shareableLink) {
-        const mockUrl = `https://forms.osc.ny.gov/f/${form.id}/${generateShortId()}`
-        setShareableUrl(mockUrl)
+        const token = generateShortId()
+        const localUrl = `${window.location.origin}/f/${form.id}/${token}`
+        setShareableUrl(localUrl)
       }
 
       if (publishOptions.qrCode) {
-        // In real app, this would generate a QR code
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shareableUrl || `https://forms.osc.ny.gov/f/${form.id}`)}`
+        // Generate QR code for the actual working URL
+        const urlForQr = shareableUrl || `${window.location.origin}/f/${form.id}/${generateShortId()}`
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(urlForQr)}`
         setQrCodeUrl(qrUrl)
       }
 
