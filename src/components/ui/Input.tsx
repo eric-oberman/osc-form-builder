@@ -56,7 +56,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium text-osc-navy-700 dark:text-osc-navy-300"
+            className="text-sm font-medium text-osc-navy-900 dark:text-white"
           >
             {label}
           </label>
@@ -92,7 +92,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {errorMessage}
           </p>
         ) : helperText ? (
-          <p className="text-sm text-osc-navy-600 dark:text-osc-navy-400">
+          <p className="text-sm text-osc-navy-800 dark:text-osc-navy-200">
             {helperText}
           </p>
         ) : null}

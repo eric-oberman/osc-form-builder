@@ -21,7 +21,7 @@ export function AuthLayout() {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold">Electronic Form Builder</h1>
-                  <p className="text-white/80">New York State Office of State Comptroller</p>
+                  <p className="text-white">New York State Office of State Comptroller</p>
                 </div>
               </div>
 
@@ -29,7 +29,7 @@ export function AuthLayout() {
                 Government-Grade Form Creation Platform
               </h2>
 
-              <p className="text-xl text-white/90 mb-8 leading-relaxed">
+              <p className="text-xl text-white mb-8 leading-relaxed">
                 Build, manage, and deploy secure electronic forms with advanced analytics,
                 AI-powered optimization, and seamless integration capabilities.
               </p>
@@ -37,19 +37,19 @@ export function AuthLayout() {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white/90">WCAG 2.1 AA Accessibility Compliant</span>
+                  <span className="text-white">WCAG 2.1 AA Accessibility Compliant</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white/90">Advanced Security & Data Protection</span>
+                  <span className="text-white">Advanced Security & Data Protection</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white/90">AI-Powered Smart Suggestions</span>
+                  <span className="text-white">AI-Powered Smart Suggestions</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white/90">Real-time Analytics & Reporting</span>
+                  <span className="text-white">Real-time Analytics & Reporting</span>
                 </div>
               </div>
             </motion.div>

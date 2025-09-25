@@ -51,7 +51,7 @@ export function LoginPage() {
           <h1 className="text-2xl font-bold text-osc-navy-900 dark:text-osc-navy-100 mb-2">
             Sign in to your account
           </h1>
-          <p className="text-osc-navy-800 dark:text-osc-navy-300">
+          <p className="text-osc-navy-900 dark:text-white">
             Access the OSC Electronic Form Builder
           </p>
         </div>
@@ -77,7 +77,7 @@ export function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="text-osc-navy-600 hover:text-osc-navy-800 dark:text-osc-navy-400 dark:hover:text-osc-navy-200"
+                className="text-osc-navy-900 hover:text-osc-navy-800 dark:text-white dark:hover:text-osc-navy-200"
               >
                 {showPassword ? (
                   <EyeSlashIcon className="h-5 w-5" />
@@ -105,7 +105,7 @@ export function LoginPage() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-sm text-osc-navy-700 dark:text-osc-navy-300">
+          <p className="text-sm text-osc-navy-900 dark:text-white">
             Demo credentials: any email/password
           </p>
         </div>

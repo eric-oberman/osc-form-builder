@@ -74,7 +74,7 @@ export function WelcomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-osc-navy-900 dark:text-osc-navy-100 mb-4">
               Professional Form Management
             </h2>
-            <p className="text-xl text-osc-navy-700 dark:text-osc-navy-300">
+            <p className="text-xl text-osc-navy-800 dark:text-osc-navy-200">
               Everything you need to create, manage, and optimize electronic forms
               for government operations.
             </p>
@@ -99,7 +99,7 @@ export function WelcomePage() {
                     <h3 className="text-xl font-semibold text-osc-navy-900 dark:text-osc-navy-100 mb-2">
                       {feature.title}
                     </h3>
-                    <p className="text-osc-navy-700 dark:text-osc-navy-300">
+                    <p className="text-osc-navy-800 dark:text-osc-navy-200">
                       {feature.description}
                     </p>
                   </div>
