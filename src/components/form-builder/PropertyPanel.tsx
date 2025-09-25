@@ -365,8 +365,27 @@ export function PropertyPanel() {
           </Card>
         )}
 
+        {field.type === 'text-block' && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Text Content</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                label="Text Content"
+                value={field.settings?.text_content || ''}
+                onChange={(e) => handleFieldUpdate({
+                  settings: { ...field.settings, text_content: e.target.value }
+                })}
+                placeholder="Enter your text content here. You can use line breaks for paragraphs."
+                rows={6}
+              />
+            </CardContent>
+          </Card>
+        )}
+
         {/* Conditional Logic */}
-        {!['section', 'divider', 'html', 'page-break'].includes(field.type) && (
+        {!['section', 'divider', 'html', 'text-block', 'page-break'].includes(field.type) && (
           <ConditionalLogic fieldId={field.id} />
         )}
       </div>

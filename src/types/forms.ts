@@ -28,6 +28,7 @@ export type FormFieldType =
   | 'page-break'
   | 'divider'
   | 'html'
+  | 'text-block'
   | 'matrix'
   | 'table'
   | 'calculation'
@@ -87,6 +88,7 @@ export interface FormField {
     cols_data?: any[]
     calculation?: string
     html_content?: string
+    text_content?: string
     section_title?: string
     break_type?: 'page' | 'section'
   }
@@ -152,6 +154,8 @@ export interface Form {
   pages?: FormPage[]
   theme?: FormTheme
   settings?: FormSettings
+  isTemplate?: boolean
+  templateCategory?: string
   metadata: {
     created_at: string
     updated_at: string
@@ -159,6 +163,21 @@ export interface Form {
     submissions_count: number
     last_submission_at?: string
     version: number
+  }
+}
+
+export interface FormTemplate extends Omit<Form, 'status' | 'metadata'> {
+  id: string
+  title: string
+  description?: string
+  category: 'basic' | 'advanced' | 'government' | 'custom'
+  tags?: string[]
+  isPublic?: boolean
+  usageCount?: number
+  metadata: {
+    created_at: string
+    updated_at: string
+    created_by: string
   }
 }
 

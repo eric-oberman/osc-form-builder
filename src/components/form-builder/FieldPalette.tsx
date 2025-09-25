@@ -83,6 +83,7 @@ const fieldTypes: FieldPaletteItem[] = [
 
   // Layout & Structure
   { type: 'section', label: 'Section Header', icon: RectangleStackIcon, category: 'layout', description: 'Section divider with title' },
+  { type: 'text-block', label: 'Text Block', icon: DocumentTextIcon, category: 'layout', description: 'Simple text display block' },
   { type: 'page-break', label: 'Page Break', icon: DocumentChartBarIcon, category: 'layout', description: 'Multi-page form break' },
   { type: 'divider', label: 'Divider', icon: MinusIcon, category: 'layout', description: 'Visual separator line' },
   { type: 'html', label: 'HTML Block', icon: CodeBracketIcon, category: 'layout', description: 'Custom HTML content' },
@@ -223,7 +224,7 @@ export function FieldPalette() {
             {templates.length === 0 && (
               <div className="text-center py-6">
                 <FolderIcon className="w-12 h-12 text-osc-navy-300 dark:text-osc-navy-600 mx-auto mb-3" />
-                <p className="text-sm text-osc-navy-600 dark:text-osc-navy-400">
+                <p className="text-sm text-osc-navy-900 dark:text-osc-navy-100">
                   No templates available
                 </p>
               </div>
@@ -268,7 +269,7 @@ export function FieldPalette() {
             {filteredFields.length === 0 && searchTerm && (
               <div className="text-center py-6">
                 <MagnifyingGlassIcon className="w-12 h-12 text-osc-navy-300 dark:text-osc-navy-600 mx-auto mb-3" />
-                <p className="text-sm text-osc-navy-600 dark:text-osc-navy-400">
+                <p className="text-sm text-osc-navy-900 dark:text-osc-navy-100">
                   No fields found for "{searchTerm}"
                 </p>
               </div>
@@ -278,7 +279,7 @@ export function FieldPalette() {
       </div>
 
       <div className="p-4 border-t border-osc-navy-200 dark:border-osc-navy-700">
-        <div className="text-xs text-osc-navy-500 dark:text-osc-navy-400 text-center">
+        <div className="text-xs text-osc-navy-900 dark:text-osc-navy-100 text-center">
           {showTemplates
             ? 'Click a template to load it into the form builder'
             : 'Drag fields to the form or click to add at the end'

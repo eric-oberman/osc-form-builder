@@ -32,7 +32,7 @@ export function EmptyState({ onAddField }: EmptyStateProps) {
           Start Building Your Form
         </h3>
 
-        <p className="text-osc-navy-600 dark:text-osc-navy-400 mb-8">
+        <p className="text-osc-navy-900 dark:text-osc-navy-100 mb-8">
           Drag fields from the palette or click on a quick field below to get started.
         </p>
 
@@ -57,7 +57,7 @@ export function EmptyState({ onAddField }: EmptyStateProps) {
         </div>
 
         <div className="mt-8 pt-8 border-t border-osc-navy-200 dark:border-osc-navy-700">
-          <p className="text-sm text-osc-navy-500 dark:text-osc-navy-400">
+          <p className="text-sm text-osc-navy-800 dark:text-osc-navy-200">
             Pro tip: You can also drag and drop fields from the left panel
           </p>
         </div>

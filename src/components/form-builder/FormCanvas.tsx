@@ -101,7 +101,7 @@ export function FormCanvas() {
   if (!currentForm) {
     return (
       <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-osc-navy-950">
-        <div className="text-center text-osc-navy-500 dark:text-osc-navy-400">
+        <div className="text-center text-osc-navy-900 dark:text-osc-navy-100">
           No form loaded
         </div>
       </div>
@@ -118,7 +118,7 @@ export function FormCanvas() {
               {currentForm.title}
             </h2>
             {currentForm.description && (
-              <p className="text-sm text-osc-navy-500 dark:text-osc-navy-400 mt-1">
+              <p className="text-sm text-osc-navy-800 dark:text-osc-navy-200 mt-1">
                 {currentForm.description}
               </p>
             )}
@@ -127,10 +127,10 @@ export function FormCanvas() {
           {/* Page Navigation */}
           {currentForm.pages && currentForm.pages.length > 1 && (
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-osc-navy-500 dark:text-osc-navy-400">
+              <span className="text-sm text-osc-navy-800 dark:text-osc-navy-200">
                 Page {activePage + 1} of {currentForm.pages.length}
               </span>
-              <div className="text-sm font-medium text-osc-navy-700 dark:text-osc-navy-300">
+              <div className="text-sm font-medium text-osc-navy-900 dark:text-osc-navy-100">
                 {currentForm.pages[activePage]?.title}
               </div>
             </div>
@@ -225,7 +225,7 @@ export function FormCanvas() {
                   <div className="text-center pt-6">
                     <button
                       onClick={() => addField('text')}
-                      className="inline-flex items-center px-4 py-2 border border-dashed border-osc-navy-300 dark:border-osc-navy-600 rounded-lg text-sm text-osc-navy-600 dark:text-osc-navy-400 hover:border-osc-navy-400 dark:hover:border-osc-navy-500 hover:text-osc-navy-700 dark:hover:text-osc-navy-300 transition-colors"
+                      className="inline-flex items-center px-4 py-2 border border-dashed border-osc-navy-300 dark:border-osc-navy-600 rounded-lg text-sm text-osc-navy-900 dark:text-osc-navy-100 hover:border-osc-navy-400 dark:hover:border-osc-navy-500 hover:text-osc-navy-800 dark:hover:text-osc-navy-200 transition-colors"
                     >
                       <PlusIcon className="w-4 h-4 mr-2" />
                       Add Field

@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
   EyeIcon,
   Cog6ToothIcon,
@@ -9,7 +9,9 @@ import {
   PlusIcon,
   ArrowLeftIcon,
   MagnifyingGlassMinusIcon,
-  MagnifyingGlassPlusIcon
+  MagnifyingGlassPlusIcon,
+  FolderPlusIcon,
+  FolderOpenIcon
 } from '@heroicons/react/24/outline'
 
 import { useFormBuilderStore } from '@/stores/formBuilderStore'
@@ -19,11 +21,16 @@ import { FormCanvas } from '@/components/form-builder/FormCanvas'
 import { PropertyPanel } from '@/components/form-builder/PropertyPanel'
 import { FormSharingSettings } from '@/components/form-builder/FormSharingSettings'
 import { PublishFormModal, type PublishOptions } from '@/components/modals/PublishFormModal'
+import { SaveAsTemplateModal } from '@/components/modals/SaveAsTemplateModal'
+import { TemplateLibraryModal } from '@/components/modals/TemplateLibraryModal'
 
 export function FormBuilderPage() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [showFormSettings, setShowFormSettings] = React.useState(false)
   const [showPublishModal, setShowPublishModal] = React.useState(false)
+  const [showSaveAsTemplateModal, setShowSaveAsTemplateModal] = React.useState(false)
+  const [showTemplateLibraryModal, setShowTemplateLibraryModal] = React.useState(false)
   const {
     currentForm,
     previewMode,
@@ -33,6 +40,7 @@ export function FormBuilderPage() {
     createForm,
     loadForm,
     saveForm,
+    saveAsTemplate,
     togglePreview,
     setZoom,
     updateFormSettings,
@@ -73,6 +81,51 @@ export function FormBuilderPage() {
     setZoom(zoom + delta)
   }
 
+  const handleNewForm = () => {
+    // Check if there are unsaved changes
+    if (isDirty) {
+      const confirmed = window.confirm(
+        'You have unsaved changes. Are you sure you want to start a new form? Your changes will be lost.'
+      )
+      if (!confirmed) return
+    }
+
+    // Clear current form and create new one
+    clearForm()
+    setTimeout(() => {
+      createForm('Untitled Form', 'New form description')
+      navigate('/forms/new')
+    }, 0)
+  }
+
+  const handleSaveAsTemplate = async (templateName: string, category: string, description?: string) => {
+    if (!currentForm) return
+
+    try {
+      await saveAsTemplate(templateName, category, description)
+      setShowSaveAsTemplateModal(false)
+    } catch (error) {
+      console.error('Failed to save template:', error)
+    }
+  }
+
+  const handleLoadTemplate = () => {
+    // Check if there are unsaved changes
+    if (isDirty) {
+      const confirmed = window.confirm(
+        'You have unsaved changes. Are you sure you want to load a template? Your changes will be lost.'
+      )
+      if (!confirmed) return
+    }
+
+    setShowTemplateLibraryModal(true)
+  }
+
+  const handleTemplateLoaded = (templateId: string) => {
+    // Template is already loaded by the modal, just navigate to new form
+    navigate('/forms/new')
+  }
+
   const handlePublish = async (options: PublishOptions) => {
     if (!currentForm) return
 
@@ -103,7 +156,7 @@ export function FormBuilderPage() {
           <h2 className="text-xl font-semibold text-osc-navy-900 dark:text-osc-navy-100 mb-2">
             No Form Found
           </h2>
-          <p className="text-osc-navy-600 dark:text-osc-navy-400 mb-4">
+          <p className="text-osc-navy-900 dark:text-osc-navy-100 mb-4">
             The requested form could not be found.
           </p>
           <Button onClick={() => createForm('New Form', 'Form description')}>
@@ -156,7 +209,7 @@ export function FormBuilderPage() {
               >
                 <MagnifyingGlassMinusIcon className="w-4 h-4" />
               </Button>
-              <span className="text-sm text-osc-navy-600 dark:text-osc-navy-400 min-w-[3rem] text-center">
+              <span className="text-sm text-osc-navy-900 dark:text-osc-navy-100 min-w-[3rem] text-center">
                 {Math.round(zoom * 100)}%
               </span>
               <Button
@@ -172,6 +225,26 @@ export function FormBuilderPage() {
             <div className="w-px h-6 bg-osc-navy-200 dark:bg-osc-navy-700" />
 
             {/* Form Actions */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleNewForm}
+              title="Start new form"
+            >
+              <PlusIcon className="w-4 h-4 mr-2" />
+              New Form
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLoadTemplate}
+              title="Load from template"
+            >
+              <FolderOpenIcon className="w-4 h-4 mr-2" />
+              Templates
+            </Button>
+
             <Button
               variant="ghost"
               size="sm"
@@ -198,6 +271,17 @@ export function FormBuilderPage() {
               disabled={!isDirty}
             >
               Save Form
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowSaveAsTemplateModal(true)}
+              title="Save as template"
+              disabled={!currentForm}
+            >
+              <FolderPlusIcon className="w-4 h-4 mr-2" />
+              Save as Template
             </Button>
 
             <Button
@@ -282,6 +366,21 @@ export function FormBuilderPage() {
           </motion.div>
         </motion.div>
       )}
+
+      {/* Save as Template Modal */}
+      <SaveAsTemplateModal
+        isOpen={showSaveAsTemplateModal}
+        onClose={() => setShowSaveAsTemplateModal(false)}
+        onSave={handleSaveAsTemplate}
+        formTitle={currentForm?.title}
+      />
+
+      {/* Template Library Modal */}
+      <TemplateLibraryModal
+        isOpen={showTemplateLibraryModal}
+        onClose={() => setShowTemplateLibraryModal(false)}
+        onLoadTemplate={handleTemplateLoaded}
+      />
 
       {/* Publish Modal */}
       {currentForm && (

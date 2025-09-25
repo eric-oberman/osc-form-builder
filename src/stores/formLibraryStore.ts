@@ -42,6 +42,12 @@ interface FormLibraryActions {
     }>
   }
 
+  // Template Management
+  getTemplates: () => Form[]
+  saveFormAsTemplate: (formId: string, templateName: string, category: string, description?: string) => void
+  deleteTemplate: (templateId: string) => void
+  loadFromTemplate: (templateId: string) => Form
+
   // Utility
   initializeWithTemplates: () => void
   setLoading: (loading: boolean) => void
@@ -751,6 +757,93 @@ export const useFormLibraryStore = create<FormLibraryStore>()(
         })
 
         return { responses, charts }
+      },
+
+      // Template Management
+      getTemplates: () => {
+        const { forms } = get()
+        return forms.filter(form => form.isTemplate === true)
+      },
+
+      saveFormAsTemplate: (formId: string, templateName: string, category: string, description?: string) => {
+        const { forms } = get()
+        const sourceForm = forms.find(f => f.id === formId)
+
+        if (!sourceForm) {
+          set({ error: 'Source form not found' })
+          return
+        }
+
+        const templateId = `template-${generateId()}`
+        const now = new Date().toISOString()
+
+        const template: Form = {
+          ...sourceForm,
+          id: templateId,
+          title: templateName,
+          description,
+          isTemplate: true,
+          templateCategory: category,
+          status: 'draft',
+          metadata: {
+            created_at: now,
+            updated_at: now,
+            created_by: sourceForm.metadata.created_by,
+            submissions_count: 0,
+            version: 1
+          }
+        }
+
+        set({
+          forms: [...forms, template],
+          error: null
+        })
+
+        console.log('✅ Template saved to library:', templateName)
+      },
+
+      deleteTemplate: (templateId: string) => {
+        const { forms } = get()
+        const updatedForms = forms.filter(form => form.id !== templateId)
+
+        set({
+          forms: updatedForms,
+          error: null
+        })
+
+        console.log('🗑️ Template deleted:', templateId)
+      },
+
+      loadFromTemplate: (templateId: string) => {
+        const { forms } = get()
+        const template = forms.find(f => f.id === templateId && f.isTemplate === true)
+
+        if (!template) {
+          set({ error: 'Template not found' })
+          throw new Error('Template not found')
+        }
+
+        const newFormId = generateId()
+        const now = new Date().toISOString()
+
+        const newForm: Form = {
+          ...template,
+          id: newFormId,
+          title: `${template.title} (Copy)`,
+          isTemplate: false,
+          templateCategory: undefined,
+          status: 'draft',
+          metadata: {
+            created_at: now,
+            updated_at: now,
+            created_by: template.metadata.created_by,
+            submissions_count: 0,
+            version: 1
+          }
+        }
+
+        console.log('📋 Loaded form from template:', template.title)
+        return newForm
       },
 
       // Utility

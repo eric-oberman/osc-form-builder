@@ -20,6 +20,7 @@ interface FormBuilderActions {
   createForm: (title: string, description?: string) => void
   loadForm: (formId: string) => Promise<void>
   saveForm: () => Promise<void>
+  saveAsTemplate: (templateName: string, category: string, description?: string) => Promise<void>
   updateFormSettings: (settings: Partial<Form>) => void
   clearForm: () => void
 
@@ -275,6 +276,54 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
             isLoading: false,
             error: error instanceof Error ? error.message : 'Failed to save form'
           })
+        }
+      },
+
+      saveAsTemplate: async (templateName: string, category: string, description?: string) => {
+        const { currentForm } = get()
+        if (!currentForm) return
+
+        set({
+          isLoading: true,
+          error: null
+        })
+
+        try {
+          // Import the formLibraryStore to save the template
+          const { useFormLibraryStore } = await import('@/stores/formLibraryStore')
+          const formLibraryStore = useFormLibraryStore.getState()
+
+          // Create template from current form
+          const template = {
+            ...currentForm,
+            id: `template-${generateId()}`,
+            title: templateName,
+            description,
+            isTemplate: true,
+            templateCategory: category,
+            status: 'draft' as const,
+            metadata: {
+              ...currentForm.metadata,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              submissions_count: 0
+            }
+          }
+
+          // Save template using formLibraryStore
+          formLibraryStore.saveFormAsTemplate(currentForm.id, templateName, category, description)
+
+          set({
+            isLoading: false
+          })
+
+          console.log('✅ Template saved successfully:', templateName)
+        } catch (error) {
+          set({
+            isLoading: false,
+            error: error instanceof Error ? error.message : 'Failed to save template'
+          })
+          console.error('❌ Failed to save template:', error)
         }
       },
 

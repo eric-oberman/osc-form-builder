@@ -367,6 +367,15 @@ export function FormFieldRenderer({ field, isSelected, isPreview, value, onChang
           />
         )
 
+      case 'text-block':
+        return (
+          <div className="prose dark:prose-invert max-w-none">
+            <div className="text-osc-navy-900 dark:text-osc-navy-100 whitespace-pre-wrap">
+              {field.settings?.text_content || field.label}
+            </div>
+          </div>
+        )
+
       default:
         return (
           <div className="p-4 border border-dashed border-osc-navy-300 dark:border-osc-navy-600 rounded-lg text-center">
