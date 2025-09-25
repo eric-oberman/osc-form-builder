@@ -30,12 +30,21 @@ const MOCK_USERS = [
 const DEPARTMENTS = ['IT', 'HR', 'Finance', 'Legal', 'Audit', 'Operations']
 
 export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsProps) {
+  // Ensure sharing object has proper defaults
+  const safeSharing = {
+    sharingLevel: 'private' as const,
+    allowedUsers: [],
+    departmentAccess: [],
+    inheritFromCreator: false,
+    ...sharing
+  }
+
   const [userSearchQuery, setUserSearchQuery] = useState('')
   const [showUserSelector, setShowUserSelector] = useState(false)
 
   const handleSharingLevelChange = (level: FormSharingLevel) => {
     onChange({
-      ...sharing,
+      ...safeSharing,
       sharingLevel: level,
       // Clear specific users if switching away from specific_users
       ...(level !== 'specific_users' ? { allowedUsers: [] } : {}),
@@ -45,7 +54,7 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
   }
 
   const handleAddUser = (user: typeof MOCK_USERS[0]) => {
-    if (!sharing.allowedUsers.find(u => u.userId === user.id)) {
+    if (!safeSharing.allowedUsers.find(u => u.userId === user.id)) {
       const newUser: FormUserPermission = {
         userId: user.id,
         email: user.email,
@@ -53,8 +62,8 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
         permission: 'view'
       }
       onChange({
-        ...sharing,
-        allowedUsers: [...sharing.allowedUsers, newUser]
+        ...safeSharing,
+        allowedUsers: [...safeSharing.allowedUsers, newUser]
       })
     }
     setShowUserSelector(false)
@@ -63,34 +72,34 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
 
   const handleRemoveUser = (userId: string) => {
     onChange({
-      ...sharing,
-      allowedUsers: sharing.allowedUsers.filter(u => u.userId !== userId)
+      ...safeSharing,
+      allowedUsers: safeSharing.allowedUsers.filter(u => u.userId !== userId)
     })
   }
 
   const handleUserPermissionChange = (userId: string, permission: 'view' | 'edit' | 'admin') => {
     onChange({
-      ...sharing,
-      allowedUsers: sharing.allowedUsers.map(u =>
+      ...safeSharing,
+      allowedUsers: safeSharing.allowedUsers.map(u =>
         u.userId === userId ? { ...u, permission } : u
       )
     })
   }
 
   const handleDepartmentToggle = (department: string) => {
-    const isSelected = sharing.departmentAccess.includes(department)
+    const isSelected = safeSharing.departmentAccess.includes(department)
     onChange({
-      ...sharing,
+      ...safeSharing,
       departmentAccess: isSelected
-        ? sharing.departmentAccess.filter(d => d !== department)
-        : [...sharing.departmentAccess, department]
+        ? safeSharing.departmentAccess.filter(d => d !== department)
+        : [...safeSharing.departmentAccess, department]
     })
   }
 
   const filteredUsers = MOCK_USERS.filter(user =>
     user.name.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
     user.email.toLowerCase().includes(userSearchQuery.toLowerCase())
-  ).filter(user => !sharing.allowedUsers.find(u => u.userId === user.id))
+  ).filter(user => !safeSharing.allowedUsers.find(u => u.userId === user.id))
 
   const getSharingLevelIcon = (level: FormSharingLevel) => {
     switch (level) {
@@ -133,14 +142,14 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
                   key={level}
                   onClick={() => handleSharingLevelChange(level)}
                   className={`p-4 border rounded-lg text-left transition-all duration-200 ${
-                    sharing.sharingLevel === level
+                    safeSharing.sharingLevel === level
                       ? 'border-osc-blue-500 bg-osc-blue-50 dark:bg-osc-blue-900/20'
                       : 'border-osc-navy-200 hover:border-osc-navy-300 dark:border-osc-navy-700 dark:hover:border-osc-navy-600'
                   }`}
                 >
                   <div className="flex items-start space-x-3">
                     <div className={`mt-0.5 ${
-                      sharing.sharingLevel === level ? 'text-osc-blue-600' : 'text-osc-navy-500'
+                      safeSharing.sharingLevel === level ? 'text-osc-blue-600' : 'text-osc-navy-500'
                     }`}>
                       {getSharingLevelIcon(level)}
                     </div>
@@ -159,7 +168,7 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
           </div>
 
           {/* Department Selection */}
-          {sharing.sharingLevel === 'department' && (
+          {safeSharing.sharingLevel === 'department' && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -175,7 +184,7 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
                     key={dept}
                     onClick={() => handleDepartmentToggle(dept)}
                     className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 ${
-                      sharing.departmentAccess.includes(dept)
+                      safeSharing.departmentAccess.includes(dept)
                         ? 'bg-osc-blue-100 text-osc-blue-800 border border-osc-blue-300'
                         : 'bg-osc-navy-100 text-osc-navy-700 border border-osc-navy-200 hover:bg-osc-navy-200'
                     }`}
@@ -188,7 +197,7 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
           )}
 
           {/* Specific Users Selection */}
-          {sharing.sharingLevel === 'specific_users' && (
+          {safeSharing.sharingLevel === 'specific_users' && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -197,7 +206,7 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
             >
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-medium text-osc-navy-800 dark:text-osc-navy-200">
-                  Specific Users ({sharing.allowedUsers.length})
+                  Specific Users ({safeSharing.allowedUsers.length})
                 </h4>
                 <Button
                   variant="outline"
@@ -211,9 +220,9 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
               </div>
 
               {/* Current Users */}
-              {sharing.allowedUsers.length > 0 && (
+              {safeSharing.allowedUsers.length > 0 && (
                 <div className="space-y-2">
-                  {sharing.allowedUsers.map((user) => (
+                  {safeSharing.allowedUsers.map((user) => (
                     <div
                       key={user.userId}
                       className="flex items-center justify-between p-3 bg-osc-navy-50 dark:bg-osc-navy-800 rounded-lg"
@@ -312,8 +321,8 @@ export function FormSharingSettings({ sharing, onChange }: FormSharingSettingsPr
             <label className="flex items-center space-x-3 cursor-pointer">
               <input
                 type="checkbox"
-                checked={sharing.inheritFromCreator}
-                onChange={(e) => onChange({ ...sharing, inheritFromCreator: e.target.checked })}
+                checked={safeSharing.inheritFromCreator}
+                onChange={(e) => onChange({ ...safeSharing, inheritFromCreator: e.target.checked })}
                 className="w-4 h-4 text-osc-blue-600 border-gray-300 rounded focus:ring-osc-blue-500"
               />
               <div>

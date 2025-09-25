@@ -21,6 +21,7 @@ interface FormBuilderActions {
   loadForm: (formId: string) => Promise<void>
   saveForm: () => Promise<void>
   updateFormSettings: (settings: Partial<Form>) => void
+  clearForm: () => void
 
   // Field Management
   addField: (fieldType: FormFieldType, position?: number) => void
@@ -71,7 +72,7 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
         console.log('🔨 Creating new form:', title)
         const now = new Date().toISOString()
         const newForm: Form = {
-          id: generateId(),
+          id: 'new-temp-id',
           title,
           description,
           status: 'draft',
@@ -90,7 +91,7 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
             require_login: false
           },
           sharing: {
-            sharingLevel: 'private',
+            sharingLevel: 'private' as const,
             allowedUsers: [],
             departmentAccess: [],
             inheritFromCreator: false
@@ -196,7 +197,7 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
               }
             },
             sharing: {
-              sharingLevel: 'private',
+              sharingLevel: 'private' as const,
               allowedUsers: [],
               departmentAccess: [],
               inheritFromCreator: false
@@ -601,6 +602,21 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
         set({
           isLoading: loading
         })
+      },
+
+      clearForm: () => {
+        console.log('🧹 Clearing form state')
+        set({
+          currentForm: null,
+          selectedField: null,
+          draggedField: null,
+          previewMode: false,
+          activePage: 0,
+          isDirty: false,
+          isLoading: false,
+          error: null
+        })
+        console.log('✅ Form state cleared')
       }
     }),
     {

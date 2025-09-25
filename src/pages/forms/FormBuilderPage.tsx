@@ -35,19 +35,35 @@ export function FormBuilderPage() {
     saveForm,
     togglePreview,
     setZoom,
-    updateFormSettings
+    updateFormSettings,
+    clearForm
   } = useFormBuilderStore()
 
   React.useEffect(() => {
+    console.log('🔄 FormBuilderPage useEffect - id:', id, 'currentForm:', currentForm?.id)
+
     if (id && id !== 'new') {
-      // Only load if we don't have a form or if the form ID doesn't match
+      // Loading existing form - only load if we don't have a form or if the form ID doesn't match
       if (!currentForm || currentForm.id !== id) {
+        console.log('📋 Loading form:', id)
         loadForm(id)
+      } else {
+        console.log('✅ Form already loaded:', currentForm.id)
       }
-    } else if (id === 'new' && !currentForm) {
-      createForm('Untitled Form', 'New form description')
+    } else if (id === 'new') {
+      // Creating new form - clear any existing form first, then create new one
+      if (!currentForm || currentForm.id !== 'new-temp-id') {
+        console.log('🆕 Creating new form')
+        clearForm()
+        // Use setTimeout to ensure clearForm completes before creating new form
+        setTimeout(() => {
+          createForm('Untitled Form', 'New form description')
+        }, 0)
+      } else {
+        console.log('✅ New form already created')
+      }
     }
-  }, [id, loadForm, createForm])
+  }, [id, currentForm, loadForm, createForm, clearForm])
 
   const handleSave = async () => {
     await saveForm()
@@ -107,7 +123,11 @@ export function FormBuilderPage() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => window.history.back()}
+              onClick={() => {
+                // Clear form state when navigating back
+                clearForm()
+                window.history.back()
+              }}
             >
               <ArrowLeftIcon className="w-4 h-4 mr-2" />
               Back
