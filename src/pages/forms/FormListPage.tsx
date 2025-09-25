@@ -17,7 +17,9 @@ import {
   ClockIcon,
   ArrowDownTrayIcon,
   BuildingOfficeIcon,
-  UserIcon
+  UserIcon,
+  LockClosedIcon,
+  GlobeAltIcon
 } from '@heroicons/react/24/outline'
 
 import { useFormLibraryStore } from '@/stores/formLibraryStore'
@@ -341,6 +343,7 @@ export function FormListPage() {
                     <th className="text-left py-3 px-4 font-medium text-osc-navy-600 dark:text-osc-navy-400">Form</th>
                     <th className="text-left py-3 px-4 font-medium text-osc-navy-600 dark:text-osc-navy-400">Department</th>
                     <th className="text-left py-3 px-4 font-medium text-osc-navy-600 dark:text-osc-navy-400">Status</th>
+                    <th className="text-left py-3 px-4 font-medium text-osc-navy-600 dark:text-osc-navy-400">Sharing</th>
                     <th className="text-left py-3 px-4 font-medium text-osc-navy-600 dark:text-osc-navy-400">Owner</th>
                     <th className="text-left py-3 px-4 font-medium text-osc-navy-600 dark:text-osc-navy-400">Responses</th>
                     <th className="text-left py-3 px-4 font-medium text-osc-navy-600 dark:text-osc-navy-400">Last Updated</th>
@@ -378,6 +381,25 @@ export function FormListPage() {
                           <Badge variant={getStatusColor(form.status)} className="capitalize">
                             {form.status}
                           </Badge>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center space-x-1">
+                            {form.sharing?.sharingLevel === 'private' && (
+                              <LockClosedIcon className="w-4 h-4 text-osc-navy-500" title="Private" />
+                            )}
+                            {form.sharing?.sharingLevel === 'department' && (
+                              <BuildingOfficeIcon className="w-4 h-4 text-osc-blue-500" title="Department" />
+                            )}
+                            {form.sharing?.sharingLevel === 'organization' && (
+                              <GlobeAltIcon className="w-4 h-4 text-osc-green-500" title="Organization" />
+                            )}
+                            {form.sharing?.sharingLevel === 'specific_users' && (
+                              <UserGroupIcon className="w-4 h-4 text-osc-purple-500" title="Specific Users" />
+                            )}
+                            <span className="text-xs text-osc-navy-600 dark:text-osc-navy-400 capitalize">
+                              {form.sharing?.sharingLevel?.replace('_', ' ') || 'Private'}
+                            </span>
+                          </div>
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center space-x-2">

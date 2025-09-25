@@ -23,7 +23,7 @@ interface AuthActions {
 type AuthStore = AuthState & AuthActions
 
 // Mock user for development
-const createMockUser = (role: UserRole = 'form_builder'): User => ({
+const createMockUser = (role: UserRole = 'admin'): User => ({
   id: '1',
   email: 'john.doe@osc.ny.gov',
   firstName: 'John',
@@ -43,21 +43,27 @@ const createMockUser = (role: UserRole = 'form_builder'): User => ({
   permissions: [
     {
       id: '1',
+      name: 'System Administration',
+      resource: 'system',
+      action: 'manage'
+    },
+    {
+      id: '2',
+      name: 'User Management',
+      resource: 'users',
+      action: 'manage'
+    },
+    {
+      id: '3',
       name: 'Form Management',
       resource: 'forms',
       action: 'manage'
     },
     {
-      id: '2',
-      name: 'Dashboard Access',
-      resource: 'dashboard',
-      action: 'read'
-    },
-    {
-      id: '3',
-      name: 'Analytics View',
+      id: '4',
+      name: 'Analytics Management',
       resource: 'analytics',
-      action: 'read'
+      action: 'manage'
     }
   ],
   createdAt: '2024-01-01T00:00:00Z',
@@ -131,17 +137,11 @@ export const useAuthStore = create<AuthStore>()(
           await new Promise(resolve => setTimeout(resolve, 1000))
 
           // Mock authentication logic - accepts any email/password combination
-          let mockUser: User
-
-          if (email === 'admin@osc.ny.gov') {
-            console.log('👑 Creating admin user')
-            mockUser = createAdminUser()
-          } else {
-            console.log('👤 Creating standard user')
-            mockUser = createMockUser()
-            // Update email to match what user entered
-            mockUser.email = email
-          }
+          // All demo users are now admins by default
+          console.log('👑 Creating admin user for demo')
+          const mockUser: User = createMockUser()
+          // Update email to match what user entered
+          mockUser.email = email
 
           const mockToken = `mock_token_${Date.now()}`
 

@@ -73,30 +73,16 @@ const navigation: NavigationItem[] = [
     activeIcon: DocumentTextIconSolid
   },
   {
-    name: 'User Preferences',
-    href: '/preferences',
-    icon: UserIcon,
-    activeIcon: UserIconSolid
-  },
-  {
     name: 'AI Assistant',
     href: '/ai-assistant',
     icon: SparklesIcon,
-    activeIcon: SparklesIconSolid,
-    badge: 2
+    activeIcon: SparklesIconSolid
   },
   {
     name: 'Tutorial',
     href: '/tutorial',
     icon: PresentationChartBarIcon,
     activeIcon: PresentationChartBarIconSolid
-  },
-  {
-    name: 'Admin Console',
-    href: '/admin',
-    icon: Cog6ToothIcon,
-    activeIcon: Cog6ToothIconSolid,
-    adminOnly: true
   },
   {
     name: 'User Management',
@@ -188,6 +174,7 @@ export function DashboardSidebar({
           <NavLink
             key={item.name}
             to={item.href}
+            end
             className={({ isActive }) =>
               cn(
                 'group flex items-center rounded-md text-sm font-medium transition-all duration-200',

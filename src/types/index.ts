@@ -46,6 +46,7 @@ export interface Form {
   tags: string[]
   fields: FormField[]
   settings: FormSettings
+  sharing: FormSharingSettings
   analytics: FormAnalytics
   createdBy: string
   updatedBy: string
@@ -57,6 +58,23 @@ export interface Form {
 
 export type FormStatus = 'draft' | 'published' | 'archived' | 'under_review'
 export type FormCategory = 'procurement' | 'hr' | 'finance' | 'general' | 'compliance' | 'audit'
+
+// Form Sharing Types
+export type FormSharingLevel = 'private' | 'department' | 'organization' | 'specific_users'
+
+export interface FormUserPermission {
+  userId: string
+  email: string
+  name: string
+  permission: 'view' | 'edit' | 'admin'
+}
+
+export interface FormSharingSettings {
+  sharingLevel: FormSharingLevel
+  allowedUsers: FormUserPermission[]
+  departmentAccess: string[]
+  inheritFromCreator: boolean
+}
 
 export interface FormSettings {
   allowMultipleSubmissions: boolean

@@ -89,6 +89,12 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
             save_progress: false,
             require_login: false
           },
+          sharing: {
+            sharingLevel: 'private',
+            allowedUsers: [],
+            departmentAccess: [],
+            inheritFromCreator: false
+          },
           metadata: {
             created_at: now,
             updated_at: now,
@@ -123,7 +129,10 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
             id: formId,
             title: 'Employee Onboarding Form',
             description: 'Complete form for new employee setup',
+            version: 1,
             status: 'draft',
+            category: 'hr',
+            tags: ['onboarding', 'hr'],
             fields: [
               {
                 id: 'field-1',
@@ -160,6 +169,57 @@ export const useFormBuilderStore = create<FormBuilderStore>()(
               order: 0,
               fields: ['field-1', 'field-2']
             }],
+            settings: {
+              allowMultipleSubmissions: false,
+              requireAuthentication: true,
+              enableSaveProgress: true,
+              showProgressBar: true,
+              notifications: {
+                sendToCreator: true,
+                sendToAdmins: false,
+                customRecipients: []
+              },
+              workflow: {
+                requireApproval: false,
+                approvers: [],
+                autoApprove: false
+              },
+              accessibility: {
+                highContrast: false,
+                largeText: false,
+                screenReaderOptimized: true
+              },
+              integration: {
+                webhookUrl: '',
+                apiEndpoint: '',
+                sendToDatabase: true
+              }
+            },
+            sharing: {
+              sharingLevel: 'private',
+              allowedUsers: [],
+              departmentAccess: [],
+              inheritFromCreator: false
+            },
+            analytics: {
+              totalViews: 0,
+              uniqueViews: 0,
+              submissions: 0,
+              completionRate: 0,
+              averageCompletionTime: 0,
+              dropoffPoints: [],
+              conversionFunnel: [],
+              responsesByField: {},
+              demographics: {
+                deviceTypes: {},
+                browsers: {},
+                locations: {}
+              }
+            },
+            createdBy: 'current-user',
+            updatedBy: 'current-user',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
             metadata: {
               created_at: new Date().toISOString(),
               updated_at: new Date().toISOString(),

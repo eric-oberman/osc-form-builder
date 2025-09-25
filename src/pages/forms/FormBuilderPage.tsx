@@ -17,9 +17,13 @@ import { Button } from '@/components/ui'
 import { FieldPalette } from '@/components/form-builder/FieldPalette'
 import { FormCanvas } from '@/components/form-builder/FormCanvas'
 import { PropertyPanel } from '@/components/form-builder/PropertyPanel'
+import { FormSharingSettings } from '@/components/form-builder/FormSharingSettings'
+import { PublishFormModal, type PublishOptions } from '@/components/modals/PublishFormModal'
 
 export function FormBuilderPage() {
   const { id } = useParams()
+  const [showFormSettings, setShowFormSettings] = React.useState(false)
+  const [showPublishModal, setShowPublishModal] = React.useState(false)
   const {
     currentForm,
     previewMode,
@@ -30,16 +34,20 @@ export function FormBuilderPage() {
     loadForm,
     saveForm,
     togglePreview,
-    setZoom
+    setZoom,
+    updateFormSettings
   } = useFormBuilderStore()
 
   React.useEffect(() => {
     if (id && id !== 'new') {
-      loadForm(id)
-    } else if (id === 'new' || !currentForm) {
+      // Only load if we don't have a form or if the form ID doesn't match
+      if (!currentForm || currentForm.id !== id) {
+        loadForm(id)
+      }
+    } else if (id === 'new' && !currentForm) {
       createForm('Untitled Form', 'New form description')
     }
-  }, [id, loadForm, createForm, currentForm])
+  }, [id, loadForm, createForm])
 
   const handleSave = async () => {
     await saveForm()
@@ -47,6 +55,29 @@ export function FormBuilderPage() {
 
   const handleZoomChange = (delta: number) => {
     setZoom(zoom + delta)
+  }
+
+  const handlePublish = async (options: PublishOptions) => {
+    if (!currentForm) return
+
+    try {
+      // Update form status to published
+      updateFormSettings({ status: 'published', publishedAt: new Date().toISOString() })
+
+      // Save the form
+      await saveForm()
+
+      // In a real app, this would handle:
+      // - Publishing to external systems
+      // - Generating actual PDFs
+      // - Creating shareable URLs in database
+      // - Setting up form endpoints
+
+      console.log('Publishing form with options:', options)
+    } catch (error) {
+      console.error('Failed to publish form:', error)
+      throw error
+    }
   }
 
   if (!currentForm && !isLoading) {
@@ -131,6 +162,15 @@ export function FormBuilderPage() {
             </Button>
 
             <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowFormSettings(true)}
+            >
+              <Cog6ToothIcon className="w-4 h-4 mr-2" />
+              Settings
+            </Button>
+
+            <Button
               variant="secondary"
               size="sm"
               onClick={handleSave}
@@ -140,7 +180,11 @@ export function FormBuilderPage() {
               Save Form
             </Button>
 
-            <Button size="sm" className="bg-osc-navy-900 hover:bg-osc-navy-800 text-white">
+            <Button
+              size="sm"
+              className="bg-osc-navy-900 hover:bg-osc-navy-800 text-white"
+              onClick={() => setShowPublishModal(true)}
+            >
               Publish
             </Button>
           </div>
@@ -158,6 +202,76 @@ export function FormBuilderPage() {
         {/* Right Panel - Properties */}
         {!previewMode && <PropertyPanel />}
       </div>
+
+      {/* Form Settings Modal */}
+      {showFormSettings && currentForm && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={() => setShowFormSettings(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0.95 }}
+            className="bg-white dark:bg-osc-navy-900 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto m-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6 border-b border-osc-navy-200 dark:border-osc-navy-700">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-osc-navy-900 dark:text-osc-navy-100">
+                  Form Settings
+                </h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowFormSettings(false)}
+                >
+                  ✕
+                </Button>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <FormSharingSettings
+                sharing={currentForm.sharing}
+                onChange={(sharing) => {
+                  updateFormSettings({ sharing })
+                }}
+              />
+            </div>
+
+            <div className="p-6 border-t border-osc-navy-200 dark:border-osc-navy-700 flex justify-end space-x-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowFormSettings(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  setShowFormSettings(false)
+                  handleSave()
+                }}
+              >
+                Save Settings
+              </Button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Publish Modal */}
+      {currentForm && (
+        <PublishFormModal
+          form={currentForm}
+          isOpen={showPublishModal}
+          onClose={() => setShowPublishModal(false)}
+          onPublish={handlePublish}
+        />
+      )}
 
       {/* Loading Overlay */}
       {isLoading && (
