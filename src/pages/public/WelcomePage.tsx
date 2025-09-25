@@ -111,7 +111,7 @@ export function WelcomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-spacing bg-gradient-gov text-white">
+      <section className="section-spacing bg-gradient-to-br from-gray-50 to-white border-t border-osc-navy-200">
         <div className="container-gov text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -119,16 +119,16 @@ export function WelcomePage() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-osc-navy-900">
               Ready to Transform Your Forms?
             </h2>
-            <p className="text-xl text-white mb-8">
+            <p className="text-xl text-osc-navy-700 mb-8">
               Join the OSC Electronic Form Builder and experience the future of
               government form management.
             </p>
             <Link
               to="/login"
-              className="btn-gov-secondary bg-white text-osc-navy-900 hover:bg-white/90 text-lg px-8 py-4"
+              className="btn-gov-primary bg-gradient-gov text-white hover:bg-osc-navy-700 text-lg px-8 py-4"
             >
               Start Building Forms
             </Link>

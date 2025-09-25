@@ -97,7 +97,7 @@ export function LoginPage() {
           <Button
             type="submit"
             loading={isLoading}
-            className="w-full"
+            className="w-full bg-osc-navy-800 hover:bg-osc-navy-900 text-white"
             size="lg"
           >
             Sign in

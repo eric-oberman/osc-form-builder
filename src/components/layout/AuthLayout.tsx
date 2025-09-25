@@ -7,8 +7,8 @@ export function AuthLayout() {
       <div className="flex min-h-screen">
         {/* Left side - Branding */}
         <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-gov opacity-95"></div>
-          <div className="relative z-10 flex flex-col justify-center px-12 text-white">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white"></div>
+          <div className="relative z-10 flex flex-col justify-center px-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -16,49 +16,49 @@ export function AuthLayout() {
               className="max-w-lg"
             >
               <div className="flex items-center space-x-4 mb-8">
-                <div className="h-16 w-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <div className="h-16 w-16 bg-gradient-gov rounded-2xl flex items-center justify-center">
                   <span className="text-white font-bold text-2xl">OSC</span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">Electronic Form Builder</h1>
-                  <p className="text-white">New York State Office of State Comptroller</p>
+                  <h1 className="text-2xl font-bold text-osc-navy-900">Electronic Form Builder</h1>
+                  <p className="text-osc-navy-700 font-medium">New York State Office of State Comptroller</p>
                 </div>
               </div>
 
-              <h2 className="text-4xl font-bold mb-6 leading-tight">
+              <h2 className="text-4xl font-bold mb-6 leading-tight text-osc-navy-900">
                 Government-Grade Form Creation Platform
               </h2>
 
-              <p className="text-xl text-white mb-8 leading-relaxed">
+              <p className="text-xl text-osc-navy-700 mb-8 leading-relaxed">
                 Build, manage, and deploy secure electronic forms with advanced analytics,
                 AI-powered optimization, and seamless integration capabilities.
               </p>
 
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white">WCAG 2.1 AA Accessibility Compliant</span>
+                  <div className="h-2 w-2 bg-osc-blue-600 rounded-full"></div>
+                  <span className="text-osc-navy-800">WCAG 2.1 AA Accessibility Compliant</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white">Advanced Security & Data Protection</span>
+                  <div className="h-2 w-2 bg-osc-blue-600 rounded-full"></div>
+                  <span className="text-osc-navy-800">Advanced Security & Data Protection</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white">AI-Powered Smart Suggestions</span>
+                  <div className="h-2 w-2 bg-osc-blue-600 rounded-full"></div>
+                  <span className="text-osc-navy-800">AI-Powered Smart Suggestions</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="h-2 w-2 bg-white rounded-full"></div>
-                  <span className="text-white">Real-time Analytics & Reporting</span>
+                  <div className="h-2 w-2 bg-osc-blue-600 rounded-full"></div>
+                  <span className="text-osc-navy-800">Real-time Analytics & Reporting</span>
                 </div>
               </div>
             </motion.div>
           </div>
 
           {/* Decorative elements */}
-          <div className="absolute -top-24 -right-24 h-48 w-48 bg-white/10 rounded-full"></div>
-          <div className="absolute top-1/4 -left-12 h-24 w-24 bg-white/10 rounded-full"></div>
-          <div className="absolute bottom-1/4 right-1/4 h-16 w-16 bg-white/10 rounded-full"></div>
+          <div className="absolute -top-24 -right-24 h-48 w-48 bg-osc-blue-100 rounded-full"></div>
+          <div className="absolute top-1/4 -left-12 h-24 w-24 bg-osc-blue-200 rounded-full"></div>
+          <div className="absolute bottom-1/4 right-1/4 h-16 w-16 bg-osc-blue-300 rounded-full"></div>
         </div>
 
         {/* Right side - Auth form */}
